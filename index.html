@@ -4,42 +4,66 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#AB918A">
+<meta name="description" content="MG · Nails & Lashes. Browse the latest sets and book on WhatsApp.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MG">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="format-detection" content="telephone=no">
+<meta property="og:title" content="MG · Nails & Lashes">
+<meta property="og:description" content="Browse the latest sets and book on WhatsApp.">
 <title>MG · Nails & Lashes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#CBB1AA; --grad:linear-gradient(to bottom,#AB918A 0%,#C0A69F 30%,#CBB1AA 48%,#CBB1AA 62%,#C0A69F 82%,#AB918A 100%); --ink:#2A2220; --rose:#C98E86; --rose-d:#B27A72;
+  --bg:#CBB1AA; --edge:#AB918A;
+  --grad:linear-gradient(to bottom,#AB918A 0%,#C0A69F 30%,#CBB1AA 48%,#CBB1AA 62%,#C0A69F 82%,#AB918A 100%);
+  --ink:#2A2220; --rose:#C98E86; --rose-d:#B27A72;
   --glass:rgba(255,255,255,.5); --glass-b:rgba(255,255,255,.7);
   --ease:cubic-bezier(.22,1,.36,1);
+  --top:env(safe-area-inset-top,0px);
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth;background:#AB918A}
-body{font-family:'Inter',sans-serif;background:transparent;color:var(--ink);overflow-x:hidden;opacity:0;animation:fade .8s ease forwards}
+html{scroll-behavior:smooth;background:var(--edge);-webkit-text-size-adjust:100%}
+body{font-family:'Inter',sans-serif;background:transparent;color:var(--ink);overflow-x:hidden;opacity:0;animation:fade .8s ease forwards;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 body.lock{overflow:hidden}
+button{touch-action:manipulation}
 @keyframes fade{to{opacity:1}}
 
 /* ambient blobs */
-.blobs{position:fixed;top:-220px;bottom:-220px;left:0;right:0;z-index:-1;overflow:hidden}
+.blobs{position:fixed;top:-220px;bottom:-220px;left:0;right:0;z-index:-1;overflow:hidden;pointer-events:none}
 .blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.4;animation:float 18s ease-in-out infinite}
 .b1{width:380px;height:380px;background:#EBC3BB;top:-80px;left:-100px}
 .b2{width:320px;height:320px;background:#E8D5BE;top:45%;right:-120px;animation-delay:-6s}
 .b3{width:340px;height:340px;background:#D9B4B8;bottom:-100px;left:10%;animation-delay:-12s}
 @keyframes float{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-50px) scale(1.12)}}
 
-/* header: plain MG, scrolls away with the page */
-.header{position:absolute;top:0;left:0;right:0;z-index:5;padding:calc(env(safe-area-inset-top,0px) + 34px) 16px 0;text-align:center}
-.pill{display:inline-block;padding:14px 30px 14px 40px;border-radius:40px;background:var(--glass);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);
-  border:1px solid var(--glass-b);font-family:'Cormorant Garamond',serif;font-size:28px;letter-spacing:10px;line-height:1;box-shadow:0 14px 34px rgba(50,25,22,.35)}
-
-/* background gradient: sits behind everything */
+/* background gradient */
 .back{position:fixed;top:-220px;bottom:-220px;left:0;right:0;z-index:-2;background:var(--grad)}
 
-/* feed */
-.intro{text-align:center;padding:calc(env(safe-area-inset-top,0px) + 120px) 20px 0;margin-bottom:56px;animation:rise 1s var(--ease) .3s both}
+/* status-bar fade: content melts away under the clock instead of cutting through it */
+.topfade{position:fixed;top:0;left:0;right:0;height:calc(var(--top) + 26px);z-index:150;pointer-events:none;
+  background:linear-gradient(to bottom,var(--edge) 0%,var(--edge) calc(var(--top) * .8),rgba(171,145,138,0) 100%)}
+
+/* header */
+/* floating MG: shrinks and docks between the browser's X and ••• buttons, grows back at the top */
+.header{--p:0;position:fixed;top:0;left:0;right:0;z-index:160;padding:calc(var(--top) + 34px) 16px 0;text-align:center;pointer-events:none}
+.pill{display:inline-block;padding:14px 30px 14px 40px;border-radius:40px;
+  background:rgba(255,255,255,calc(.5 + var(--p) * .22));backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);
+  border:1px solid var(--glass-b);font-family:'Cormorant Garamond',serif;font-size:28px;letter-spacing:10px;line-height:1;
+  box-shadow:0 calc(14px - var(--p) * 8px) calc(34px - var(--p) * 18px) rgba(50,25,22,calc(.35 - var(--p) * .1));
+  transform:translateY(calc(var(--p) * -24px)) scale(calc(1 - var(--p) * .42));transform-origin:center center;will-change:transform}
+
+/* intro */
+.intro{text-align:center;padding:calc(var(--top) + 120px) 20px 0;margin-bottom:56px;animation:rise 1s var(--ease) .3s both}
 .intro small{display:block;font-size:10px;letter-spacing:5px;text-transform:uppercase;opacity:.8;margin-bottom:12px}
 .intro h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:36px;letter-spacing:2px;line-height:1}
 .intro h1 em{font-style:italic;color:#8F5249}
 @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+/* feed */
 .feed{max-width:520px;margin:0 auto;padding:0 16px 20px}
 .shot{position:relative;margin-bottom:64px;padding:12px;border-radius:38px;
   background:var(--glass);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);border:1px solid var(--glass-b);box-shadow:0 26px 60px rgba(50,25,22,.38);
@@ -48,49 +72,54 @@ body.lock{overflow:hidden}
 .frame{position:relative;aspect-ratio:4/5;border-radius:28px;overflow:hidden;
   background:linear-gradient(145deg,#EBC3BB,#E8D5BE 55%,#D9B4B8);display:grid;place-items:center;
   font-family:'Cormorant Garamond',serif;font-size:64px;letter-spacing:6px;color:rgba(42,34,32,.35);
-  /* pop out of the glass */
   transform:translateY(36px) scale(.9);filter:blur(14px);opacity:0;
   transition:transform 1.1s var(--ease) .12s,filter 1s ease .12s,opacity .8s ease .12s;box-shadow:0 30px 60px rgba(120,80,70,0)}
 .shot.in .frame{transform:none;filter:blur(0);opacity:1;box-shadow:0 18px 40px rgba(50,25,22,.4)}
-.frame img{position:absolute;inset:-4% 0;width:100%;height:108%;object-fit:cover;will-change:transform}
+.frame img{position:absolute;inset:-4% 0;width:100%;height:108%;object-fit:cover;will-change:transform;opacity:0;transition:opacity .6s ease}
+.frame img.ok{opacity:1}
 .meta{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:20px 8px 6px}
-.tag{font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic}
+.tag{font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;min-width:0;white-space:nowrap}
 .tag small{display:block;font-family:'Inter',sans-serif;font-style:normal;font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.8;margin-bottom:3px}
-.acts{display:flex;gap:8px}
-.btn{border:none;cursor:pointer;font-family:inherit;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;padding:14px 20px;border-radius:40px;
-  background:var(--rose);color:#fff;transition:transform .3s var(--ease),background .3s}
-.btn:hover{background:var(--rose-d);transform:scale(1.05)}
-.btn{box-shadow:0 8px 20px rgba(50,25,22,.25)}
+.acts{display:flex;gap:8px;flex-shrink:0}
+.btn{border:none;cursor:pointer;font-family:inherit;font-size:11px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;padding:14px 20px;border-radius:40px;
+  background:var(--rose);color:#fff;box-shadow:0 8px 20px rgba(50,25,22,.25);transition:transform .3s var(--ease),background .3s,box-shadow .3s}
 .btn.ghost{background:rgba(255,255,255,.6);color:var(--ink);border:1px solid var(--glass-b)}
+.btn:active{transform:scale(.96)}
+.btn:focus-visible,.path:focus-visible,.cat-top button:focus-visible{outline:2px solid #fff;outline-offset:3px}
+@media (hover:hover){.btn:hover{background:var(--rose-d);transform:scale(1.05)}.btn.ghost:hover{background:rgba(255,255,255,.8)}}
+@media (max-width:370px){.btn{padding:13px 14px;letter-spacing:1.8px;font-size:10px}.tag{font-size:19px}}
 
 /* show more */
 .more{text-align:center;padding:10px 0 90px}
 .more .btn{padding:18px 40px;font-size:12px}
-.chooser{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:520px;margin:0 auto;padding:0 16px;display:none}
+.chooser{display:none;grid-template-columns:1fr 1fr;gap:14px;max-width:520px;margin:0 auto;padding:0 16px}
 .chooser.show{display:grid;margin-bottom:90px;animation:rise .8s var(--ease) both}
 .path{padding:36px 16px;border-radius:30px;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--glass-b);
   cursor:pointer;font-family:'Cormorant Garamond',serif;font-size:30px;color:var(--ink);box-shadow:0 18px 40px rgba(50,25,22,.3);transition:transform .5s var(--ease),box-shadow .4s}
-.path:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(150,100,90,.2)}
+.path:active{transform:scale(.97)}
+@media (hover:hover){.path:hover{transform:translateY(-6px);box-shadow:0 22px 44px rgba(50,25,22,.32)}}
 
 /* category view */
-.cat{position:fixed;inset:0;z-index:200;background:var(--grad);background-color:#AB918A;overflow-y:auto;transform:translateY(100%);transition:transform .8s var(--ease);-webkit-overflow-scrolling:touch}
-.cat.show{transform:none}
+.cat{position:fixed;inset:0;z-index:200;background:var(--grad);background-color:var(--edge);overflow-y:auto;overscroll-behavior:contain;transform:translateY(100%);visibility:hidden;transition:transform .8s var(--ease),visibility 0s .8s;-webkit-overflow-scrolling:touch}
+.cat.show{transform:none;visibility:visible;transition:transform .8s var(--ease),visibility 0s}
 .cat-top{position:sticky;top:0;z-index:5;height:0;overflow:visible}
-.cat-top button{position:absolute;right:16px;top:calc(env(safe-area-inset-top,0px) + 12px);width:44px;height:44px;border-radius:50%;border:1px solid var(--glass-b);background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);font-size:18px;cursor:pointer;color:var(--ink);box-shadow:0 10px 24px rgba(50,25,22,.35)}
-.cat-title{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:30px;letter-spacing:3px;text-align:center;padding:calc(env(safe-area-inset-top,0px) + 22px) 70px 0}
+.cat-top .fade{position:absolute;top:0;left:0;right:0;height:calc(var(--top) + 26px);pointer-events:none;
+  background:linear-gradient(to bottom,var(--edge) 0%,var(--edge) calc(var(--top) * .8),rgba(171,145,138,0) 100%)}
+.cat-top button{position:absolute;right:16px;top:calc(var(--top) + 12px);width:44px;height:44px;border-radius:50%;border:1px solid var(--glass-b);background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);font-size:18px;cursor:pointer;color:var(--ink);box-shadow:0 10px 24px rgba(50,25,22,.35)}
+.cat-title{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:30px;letter-spacing:3px;text-align:center;padding:calc(var(--top) + 22px) 70px 0}
 .cat .feed{padding-top:30px}
 
 footer{text-align:center;padding:30px 20px calc(60px + env(safe-area-inset-bottom,0px));font-size:11px;letter-spacing:2px;opacity:.75;line-height:2}
-footer a{color:inherit}
+footer a{color:inherit;text-underline-offset:3px}
 
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.shot,.frame{opacity:1!important;transform:none!important;filter:none!important}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.shot,.frame{opacity:1!important;transform:none!important;filter:none!important}body{opacity:1}}
 </style>
 </head>
 <body>
 
-<div class="blobs"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
-
-<div class="back"></div>
+<div class="blobs" aria-hidden="true"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+<div class="back" aria-hidden="true"></div>
+<div class="topfade" aria-hidden="true"></div>
 <div class="header" id="header"><div class="pill">MG</div></div>
 
 <section class="intro"><small>Nails &amp; Lashes</small><h1>Mary<em>Glam</em></h1></section>
@@ -106,8 +135,8 @@ footer a{color:inherit}
 
 <footer>MG · NAILS &amp; LASHES<br>Site by <a href="https://tamany.tech">TAMANY.TECH</a></footer>
 
-<div class="cat" id="cat">
-  <div class="cat-top"><button onclick="closeCat()" aria-label="Close">✕</button></div>
+<div class="cat" id="cat" role="dialog" aria-modal="true" aria-labelledby="catTitle">
+  <div class="cat-top"><div class="fade" aria-hidden="true"></div><button onclick="closeCat()" aria-label="Close">✕</button></div>
   <h2 class="cat-title" id="catTitle"></h2>
   <div class="feed" id="catFeed"></div>
   <footer>MG · NAILS &amp; LASHES</footer>
@@ -130,8 +159,8 @@ const FEATURED = [
 ];
 
 function wa(text){
-  if(!WHATSAPP){alert("WhatsApp number not set yet. Add it to WHATSAPP at the top of the script.");return}
-  window.open("https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(text),"_blank");
+  if(!WHATSAPP){alert("Booking is opening soon. Please check back shortly.");return}
+  window.open("https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(text),"_blank","noopener");
 }
 function ask(t,type){
   wa(type==="book" ? `Hi MG! I’d like to book: ${t}. What dates are available?`
@@ -142,9 +171,13 @@ function shot(w,cat){
   const label=LABELS[cat];
   const el=document.createElement("div");
   el.className="shot";
-  el.innerHTML=`<div class="frame">MG<img src="${w.img}" alt="${label}" loading="lazy" onerror="this.remove()"></div>
+  el.innerHTML=`<div class="frame">MG<img src="${w.img}" alt="${label} – ${w.t}" loading="lazy" decoding="async"></div>
     <div class="meta"><div class="tag"><small>${label}</small>${w.t}</div>
     <div class="acts"><button class="btn ghost">How much?</button><button class="btn">Book</button></div></div>`;
+  const img=el.querySelector("img");
+  img.onload=()=>img.classList.add("ok");
+  img.onerror=()=>img.remove();
+  if(img.complete&&img.naturalWidth)img.classList.add("ok");
   const [b1,b2]=el.querySelectorAll("button");
   b1.onclick=()=>ask(`${label}: ${w.t}`,"price");
   b2.onclick=()=>ask(`${label}: ${w.t}`,"book");
@@ -163,8 +196,11 @@ function parallax(root){
     img.style.transform=`translateY(${Math.max(-1,Math.min(1,p))*-14}px)`;
   });
 }
+let tick=false;
+function onScroll(root){if(tick)return;tick=true;requestAnimationFrame(()=>{parallax(root);tick=false})}
 
-mount(FEATURED.map(f=>[WORKS[f.cat][f.i],f.cat]),document.getElementById("feed"));
+const feed=document.getElementById("feed"), catFeed=document.getElementById("catFeed");
+mount(FEATURED.map(f=>[WORKS[f.cat][f.i],f.cat]),feed);
 
 /* show more -> category */
 function showChooser(){
@@ -173,19 +209,31 @@ function showChooser(){
   setTimeout(()=>c.scrollIntoView({behavior:"smooth",block:"center"}),150);
 }
 const cat=document.getElementById("cat");
+let catOpen=false;
 function openCat(c){
   document.getElementById("catTitle").textContent=LABELS[c];
-  mount(WORKS[c].map(w=>[w,c]),document.getElementById("catFeed"));
+  mount(WORKS[c].map(w=>[w,c]),catFeed);
   cat.scrollTop=0;cat.classList.add("show");document.body.classList.add("lock");
+  if(!catOpen){history.pushState({cat:1},"");catOpen=true}
+  setTimeout(()=>parallax(catFeed),100);
 }
-function closeCat(){cat.classList.remove("show");document.body.classList.remove("lock")}
+function hideCat(){cat.classList.remove("show");document.body.classList.remove("lock");catOpen=false}
+function closeCat(){if(catOpen)history.back();else hideCat()}
+addEventListener("popstate",()=>{if(catOpen)hideCat()});
+addEventListener("keydown",e=>{if(e.key==="Escape"&&catOpen)closeCat()});
 
-/* header collapse */
+/* MG pill: progress 0 -> 1 over the first 130px of scroll, reverses on the way back up */
 const header=document.getElementById("header");
-addEventListener("scroll",()=>{header.classList.toggle("compact",scrollY>40);parallax(document.getElementById("feed"))},{passive:true});
-cat.addEventListener("scroll",()=>parallax(document.getElementById("catFeed")),{passive:true});
-addEventListener("load",()=>parallax(document.getElementById("feed")));
+let hp=-1;
+function updateHeader(){
+  const p=Math.max(0,Math.min(1,scrollY/130));
+  if(p!==hp){hp=p;header.style.setProperty("--p",p.toFixed(3))}
+}
+updateHeader();
+addEventListener("scroll",()=>{updateHeader();onScroll(feed)},{passive:true});
+cat.addEventListener("scroll",()=>onScroll(catFeed),{passive:true});
+addEventListener("load",()=>parallax(feed));
+addEventListener("resize",()=>parallax(catOpen?catFeed:feed));
 </script>
 </body>
 </html>
- 
