@@ -2,318 +2,325 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SUCYHAIRS4QUEENS</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@300;400&display=swap" rel="stylesheet">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>MaryGlam (MG) · Nails & Lashes</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-
-/* ===== PAGE FADE IN ===== */
-body {
-  margin: 0;
-  font-family: 'Inter', sans-serif;
-  background: #F2E7E3;
-  color: #2A2220;
-  opacity: 0;
-  animation: pageFade .7s ease forwards;
+:root{
+  --bg:#F6EDE9; --ink:#2A2220; --rose:#C98E86; --rose-d:#B27A72; --gold:#B8956A;
+  --glass:rgba(255,255,255,.42); --glass-b:rgba(255,255,255,.65);
+  --ease:cubic-bezier(.22,1,.36,1);
 }
-@keyframes pageFade { to { opacity: 1; } }
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;opacity:0;animation:fade .8s ease forwards}
+@keyframes fade{to{opacity:1}}
+.serif{font-family:'Cormorant Garamond',serif}
 
-/* ===== HEADER ===== */
-.header {
-  position: sticky;
-  top: 0;
-  background: #F2E7E3;
-  padding: 30px 20px 16px;
-  z-index: 100;
+/* ambient glass blobs */
+.blobs{position:fixed;inset:0;z-index:-1;overflow:hidden}
+.blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55;animation:float 18s ease-in-out infinite}
+.b1{width:380px;height:380px;background:#EBC3BB;top:-80px;left:-100px}
+.b2{width:320px;height:320px;background:#E8D5BE;top:40%;right:-120px;animation-delay:-6s}
+.b3{width:340px;height:340px;background:#D9B4B8;bottom:-100px;left:10%;animation-delay:-12s}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-50px) scale(1.12)}}
 
-  transition:
-    padding .5s cubic-bezier(.22,1,.36,1),
-    box-shadow .3s ease;
-}
+/* header (collapses on scroll) */
+.header{position:fixed;top:0;left:0;right:0;z-index:100;padding:calc(env(safe-area-inset-top,0px) + 14px) 16px 0;display:flex;justify-content:center}
+.pill{width:100%;max-width:560px;display:flex;align-items:center;justify-content:space-between;padding:16px 22px;border-radius:40px;
+  background:var(--glass);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);
+  border:1px solid var(--glass-b);transition:padding .5s var(--ease),box-shadow .3s ease}
+.header.compact .pill{padding:10px 20px;box-shadow:0 8px 30px rgba(120,80,70,.12)}
+.mark{display:flex;flex-direction:column;align-items:center;line-height:1;overflow:hidden;max-height:60px;transition:max-height .5s var(--ease),opacity .3s}
+.mark b{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:30px;letter-spacing:6px}
+.header.compact .mark{max-height:0;opacity:0}
+.brand{font-size:12px;letter-spacing:5px;font-weight:500}
+.nav-btn{font-size:11px;letter-spacing:2px;background:none;border:none;color:var(--ink);cursor:pointer;font-family:inherit;text-transform:uppercase}
 
-.header.compact {
-  padding: 14px 20px 10px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-}
+/* hero */
+.hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:130px 24px 60px}
+.eyebrow{font-size:11px;letter-spacing:5px;text-transform:uppercase;opacity:.7;margin-bottom:22px}
+.hero h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(48px,13vw,110px);line-height:.95;letter-spacing:2px}
+.hero h1 em{font-style:italic;color:var(--rose-d)}
+.hero p{margin-top:24px;max-width:380px;font-weight:300;font-size:15px;line-height:1.7;opacity:.8}
+.choose{margin-top:44px;width:100%;max-width:560px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.path{padding:30px 16px;border-radius:28px;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid var(--glass-b);cursor:pointer;text-align:center;font-family:inherit;color:var(--ink);
+  transition:transform .5s var(--ease),background .3s,box-shadow .4s}
+.path:hover{transform:translateY(-6px);background:rgba(255,255,255,.62);box-shadow:0 18px 40px rgba(150,100,90,.18)}
+.path span{display:block;font-family:'Cormorant Garamond',serif;font-size:28px;margin-bottom:6px}
+.path small{font-size:10px;letter-spacing:3px;text-transform:uppercase;opacity:.65}
+.scroll-hint{margin-top:46px;width:1px;height:46px;background:linear-gradient(var(--ink),transparent);animation:drop 2s ease-in-out infinite}
+@keyframes drop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
-/* logo block */
-.top-logo {
-  text-align: center;
-  overflow: hidden;
-  max-height: 80px;
-  transition: max-height .5s cubic-bezier(.22,1,.36,1),
-              opacity .35s ease;
-}
+/* marquee */
+.marquee{overflow:hidden;border-block:1px solid rgba(42,34,32,.12);padding:16px 0;white-space:nowrap}
+.marquee div{display:inline-block;animation:slide 28s linear infinite;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;letter-spacing:2px}
+.marquee span{margin:0 28px;color:var(--rose-d)}
+@keyframes slide{to{transform:translateX(-50%)}}
 
-/* LOGO */
-.logo {
-  width: 54px;
-  margin-bottom: 14px;
-  transition: transform .45s ease, opacity .35s ease;
-}
+/* menu */
+.menu{padding:90px 20px 40px;max-width:760px;margin:0 auto}
+.menu h2,.about h2,.contact h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(34px,8vw,52px);text-align:center;letter-spacing:2px}
+.sub{text-align:center;font-size:13px;font-weight:300;opacity:.7;margin:10px 0 34px;letter-spacing:.5px}
+.tabs{display:flex;justify-content:center;gap:6px;padding:5px;width:max-content;margin:0 auto 34px;border-radius:40px;background:var(--glass);border:1px solid var(--glass-b);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);position:relative}
+.tab{position:relative;z-index:1;border:none;background:none;font-family:inherit;font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:12px 28px;border-radius:30px;cursor:pointer;color:var(--ink);transition:color .35s}
+.tab.on{color:#fff}
+.slider{position:absolute;top:5px;bottom:5px;left:5px;border-radius:30px;background:var(--rose);transition:transform .5s var(--ease),width .5s var(--ease)}
+.list{display:grid;gap:14px}
+.item{display:flex;align-items:center;gap:16px;padding:14px;border-radius:26px;background:var(--glass);border:1px solid var(--glass-b);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);cursor:pointer;
+  transition:transform .5s var(--ease),box-shadow .4s,background .3s}
+.item:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(150,100,90,.15)}
+.item.sel{background:rgba(201,142,134,.22);border-color:var(--rose)}
+.thumb{width:84px;height:84px;border-radius:20px;flex:none;overflow:hidden;position:relative;display:grid;place-items:center;
+  background:linear-gradient(135deg,#EBC3BB,#E8D5BE);font-family:'Cormorant Garamond',serif;font-size:26px;color:rgba(42,34,32,.55)}
+.thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.info{flex:1;min-width:0}
+.info h3{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:22px;letter-spacing:.5px}
+.info p{font-size:12px;font-weight:300;opacity:.7;margin-top:3px;line-height:1.5}
+.price{font-size:14px;letter-spacing:1px;margin-top:8px;font-weight:500}
+.add{width:38px;height:38px;border-radius:50%;border:1px solid var(--ink);display:grid;place-items:center;flex:none;transition:all .35s var(--ease);position:relative}
+.add::before,.add::after{content:"";position:absolute;width:12px;height:1.5px;background:var(--ink);transition:all .35s var(--ease)}
+.add::after{transform:rotate(90deg)}
+.item.sel .add{background:var(--rose);border-color:var(--rose);transform:rotate(180deg)}
+.item.sel .add::before,.item.sel .add::after{background:#fff}
+.item.sel .add::after{transform:rotate(0)}
+.note{text-align:center;font-size:11px;opacity:.55;margin-top:22px;letter-spacing:.5px}
 
-.header.compact .top-logo {
-  max-height: 0;
-  opacity: 0;
-}
+/* about + contact */
+.about,.contact{padding:90px 24px 30px;text-align:center;max-width:560px;margin:0 auto}
+.about p{margin-top:20px;font-weight:300;line-height:1.8;font-size:15px;opacity:.85}
+.card{margin-top:30px;padding:34px 24px;border-radius:30px;background:var(--glass);border:1px solid var(--glass-b);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.card p{margin:12px 0;font-weight:300;font-size:17px;letter-spacing:.5px}
+.card a{color:var(--ink);text-decoration:none}
+footer{text-align:center;padding:60px 20px calc(150px + env(safe-area-inset-bottom,0px));font-size:11px;letter-spacing:2px;opacity:.6;line-height:2}
+footer a{color:inherit}
 
-.header.compact .logo {
-  transform: translateY(-10px);
-  opacity: 0;
-}
+/* book bar */
+.bar{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);z-index:120;display:flex;justify-content:center;padding:0 16px;
+  transform:translateY(160%);transition:transform .6s var(--ease);pointer-events:none}
+.bar.show{transform:none;pointer-events:auto}
+.bar-in{width:100%;max-width:560px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 12px 12px 24px;border-radius:44px;
+  background:rgba(255,255,255,.55);backdrop-filter:blur(22px) saturate(1.5);-webkit-backdrop-filter:blur(22px) saturate(1.5);border:1px solid var(--glass-b);box-shadow:0 14px 40px rgba(120,80,70,.2)}
+.bar-in small{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:.65}
+.bar-in strong{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:500}
+.btn{background:var(--rose);color:#fff;border:none;padding:15px 26px;border-radius:40px;font-family:inherit;font-size:12px;letter-spacing:3px;cursor:pointer;text-transform:uppercase;transition:transform .3s var(--ease),background .3s}
+.btn:hover{background:var(--rose-d);transform:scale(1.04)}
 
-/* bar */
-.bar {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+/* booking sheet */
+.veil{position:fixed;inset:0;background:rgba(42,34,32,.25);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:130;opacity:0;pointer-events:none;transition:opacity .4s}
+.veil.show{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:140;display:flex;justify-content:center;transform:translateY(105%);transition:transform .7s var(--ease)}
+.sheet.show{transform:none}
+.sheet-in{width:100%;max-width:560px;max-height:88svh;overflow:auto;padding:30px 24px calc(30px + env(safe-area-inset-bottom,0px));border-radius:34px 34px 0 0;
+  background:rgba(250,242,239,.78);backdrop-filter:blur(28px) saturate(1.5);-webkit-backdrop-filter:blur(28px) saturate(1.5);border:1px solid var(--glass-b)}
+.sheet h3{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:32px;text-align:center}
+.sum{margin:20px 0;font-size:13px}
+.sum div{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(42,34,32,.1)}
+.sum .tot{font-weight:500;border:none;font-size:15px}
+.field{display:block;margin-bottom:14px}
+.field span{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:.65;margin-bottom:6px}
+.field input,.field select{width:100%;padding:14px 16px;border-radius:16px;border:1px solid var(--glass-b);background:rgba(255,255,255,.6);font-family:inherit;font-size:15px;color:var(--ink);outline:none}
+.field input:focus,.field select:focus{border-color:var(--rose)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sheet .btn{width:100%;margin-top:8px;padding:17px}
+.close{display:block;margin:14px auto 0;background:none;border:none;font-family:inherit;font-size:11px;letter-spacing:2px;opacity:.6;cursor:pointer;text-transform:uppercase;color:var(--ink)}
 
-/* brand */
-.brand {
-  font-size: 14px;
-  letter-spacing: 4px;
-  font-weight: 500;
-  text-align: center;
-}
-
-/* icons top-right */
-.icons {
-  position: absolute;
-  right: 0;
-  top: -4px;
-  display: flex;
-  gap: 18px;
-  align-items: center;
-  padding-right: 6px;
-}
-
-.icon {
-  width: 22px;
-  height: 22px;
-  stroke: #2A2220;
-  stroke-width: 1.8;
-  fill: none;
-  cursor: pointer;
-}
-
-/* ===== GALLERY ===== */
-.gallery {
-  column-count: 2;
-  column-gap: 26px;
-  padding: 24px 20px 80px;
-}
-
-.card {
-  break-inside: avoid;
-  margin-bottom: 42px;
-  text-align: center;
-}
-
-.card img {
-  width: 100%;
-  border-radius: 26px;
-  display: block;
-}
-
-/* name */
-.name {
-  margin-top: 18px;
-  font-family: 'Playfair Display', serif;
-  font-size: 13px;
-  letter-spacing: 1px;
-}
-
-/* price */
-.price {
-  margin-top: 8px;
-  font-size: 13px;
-  letter-spacing: 1px;
-}
-
-/* button row */
-.action-row {
-  margin-top: 12px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 14px;
-}
-
-/* button */
-.checkout {
-  background: #C98E86;
-  border: none;
-  color: white;
-  padding: 12px 18px;
-  font-size: 12px;
-  letter-spacing: 2px;
-  border-radius: 40px;
-  cursor: pointer;
-}
-
-/* ===== HEART FIX ===== */
-/* Allow scaling without clipping */
-.heart {
-  overflow: visible;
-}
-
-.heart svg {
-  width: 22px;
-  height: 22px;
-  stroke: #2A2220;
-  stroke-width: 2;
-  fill: none;
-  transition: transform .25s ease, fill .25s ease;
-  overflow: visible;
-  transform-origin: center;
-}
-
-.heart.active svg {
-  fill: #FF6B81;
-  stroke: #FF6B81;
-  transform: scale(1.15);
-}
-
-/* ===== SUPPORT SECTION ===== */
-.support {
-  text-align: center;
-  padding: 70px 24px 40px;
-}
-
-.support h2 {
-  font-family: 'Playfair Display', serif;
-  font-weight: 300;
-  letter-spacing: 2px;
-  font-size: 26px;
-  margin-bottom: 32px;
-}
-
-.support p {
-  margin: 14px 0;
-  font-weight: 300;
-  font-size: 18px;
-  letter-spacing: .5px;
-  color: #2A2220;
-}
-
-/* prevent iOS blue link color */
-.support a {
-  color: #2A2220;
-  text-decoration: none;
-}
-
-/* ===== TAGLINE ===== */
-.tagline {
-  text-align: center;
-  padding: 40px 20px 80px;
-}
-
-.tagline h3 {
-  font-family: 'Playfair Display', serif;
-  font-weight: 400;
-  margin-bottom: 12px;
-}
-
-.tagline p {
-  font-weight: 300;
-  opacity: .8;
-  font-size: 14px;
-}
-
+/* reveal */
+.rv{opacity:0;transform:translateY(34px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
 </style>
 </head>
 <body>
 
-<!-- ===== HEADER ===== -->
+<div class="blobs"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+
+<!-- HEADER -->
 <div class="header" id="header">
-
-  <div class="top-logo">
-    <img src="logo.png" class="logo">
+  <div class="pill">
+    <div class="brand">MARYGLAM</div>
+    <div class="mark"><b>MG</b></div>
+    <button class="nav-btn" onclick="go('menu')">Prices</button>
   </div>
-
-  <div class="bar">
-
-    <div class="brand">SUCYHAIRS4QUEENS</div>
-
-    <div class="icons">
-
-      <!-- search -->
-      <svg class="icon" viewBox="0 0 24 24">
-        <circle cx="11" cy="11" r="7"></circle>
-        <line x1="16.65" y1="16.65" x2="21" y2="21"></line>
-      </svg>
-
-      <!-- bag -->
-      <svg class="icon" viewBox="0 0 24 24">
-        <path d="M6 7h12l-1 13H7L6 7z"/>
-        <path d="M9 7V5a3 3 0 0 1 6 0v2"/>
-      </svg>
-
-    </div>
-
-  </div>
-
 </div>
 
-<!-- ===== GALLERY ===== -->
-<div class="gallery">
+<!-- HERO -->
+<section class="hero">
+  <div class="eyebrow rv">Nails &amp; Lashes Studio</div>
+  <h1 class="rv">Mary<em>Glam</em></h1>
+  <p class="rv">Soft luxury for your hands and eyes. Choose your treatment, see the prices, and book in on WhatsApp.</p>
+  <div class="choose rv">
+    <button class="path" onclick="pick('nails')"><span>Nails</span><small>View prices</small></button>
+    <button class="path" onclick="pick('lashes')"><span>Lashes</span><small>View prices</small></button>
+  </div>
+  <div class="scroll-hint"></div>
+</section>
+
+<div class="marquee"><div id="marq"></div></div>
+
+<!-- MENU -->
+<section class="menu" id="menu">
+  <h2 class="rv">The Menu</h2>
+  <p class="sub rv">Tap to add treatments to your booking</p>
+  <div class="tabs rv" id="tabs">
+    <div class="slider" id="slider"></div>
+    <button class="tab on" data-t="nails">Nails</button>
+    <button class="tab" data-t="lashes">Lashes</button>
+  </div>
+  <div class="list" id="list"></div>
+  <p class="note">Prices in ZAR. Final price confirmed on booking.</p>
+</section>
+
+<!-- ABOUT -->
+<section class="about">
+  <h2 class="rv">Made to Feel Glam</h2>
+  <p class="rv">MaryGlam is a beauty studio for nails and lashes, built around clean work, gentle hands and a finish that lasts. Pick what you love, send your booking, and we’ll confirm your slot.</p>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <h2 class="rv">Book In</h2>
+  <div class="card rv">
+    <p>WhatsApp: <a id="waText" href="#">Coming soon</a></p>
+    <p>Instagram: <a href="#">@maryglam</a></p>
+  </div>
+</section>
+
+<footer>MARYGLAM (MG) · NAILS &amp; LASHES<br>© 2026 · Site by <a href="https://tamany.tech">TAMANY.TECH</a></footer>
+
+<!-- BOOK BAR -->
+<div class="bar" id="bar">
+  <div class="bar-in">
+    <div><small id="count">0 selected</small><strong id="total">R0</strong></div>
+    <button class="btn" onclick="openSheet()">Book now</button>
+  </div>
+</div>
+
+<!-- SHEET -->
+<div class="veil" id="veil" onclick="closeSheet()"></div>
+<div class="sheet" id="sheet">
+  <div class="sheet-in">
+    <h3>Your Booking</h3>
+    <div class="sum" id="sum"></div>
+    <label class="field"><span>Your name</span><input id="name" placeholder="Name" autocomplete="name"></label>
+    <div class="row">
+      <label class="field"><span>Date</span><input id="date" type="date"></label>
+      <label class="field"><span>Time</span>
+        <select id="time"><option>09:00</option><option>10:00</option><option>11:00</option><option>12:00</option><option>13:00</option><option>14:00</option><option>15:00</option><option>16:00</option></select>
+      </label>
+    </div>
+    <button class="btn" onclick="sendWA()">Send on WhatsApp</button>
+    <button class="close" onclick="closeSheet()">Close</button>
+  </div>
+</div>
 
 <script>
-for (let i = 1; i <= 10; i++) {
-  document.write(`
-  <div class="card">
-    <img src="wig${i}.jpg">
-    <div class="name">Premium Wig ${i}</div>
-    <div class="price">R3,499</div>
-    <div class="action-row">
-      <button class="checkout">ADD TO CART</button>
-      <div class="heart" onclick="toggleHeart(this)">
-        <svg viewBox="0 0 24 24">
-          <path d="M12 21s-7-4.6-9.5-8C.5 10 2 6.5 5.5 6.5 8 6.5 9.5 8 12 10.5 14.5 8 16 6.5 18.5 6.5 22 6.5 23.5 10 21.5 13c-2.5 3.4-9.5 8-9.5 8z"/>
-        </svg>
-      </div>
-    </div>
-  </div>
-  `);
+/* ===== SETTINGS: edit these ===== */
+const WHATSAPP = "";            // e.g. "27821234567" (country code, no + or spaces)
+const WHATSAPP_DISPLAY = "";    // e.g. "+27 82 123 4567"
+
+/* Prices are placeholders. Optional img: "img/xyz.jpg" */
+const DATA = {
+  nails:[
+    {n:"Gel Polish",d:"Hands, long-lasting shine",p:250},
+    {n:"Acrylic Full Set",d:"Sculpted length and shape",p:450},
+    {n:"Gel-X Extensions",d:"Soft, natural-feel extensions",p:550},
+    {n:"Infill",d:"Refresh every 2 to 3 weeks",p:350},
+    {n:"Nail Art",d:"Per nail, designs from",p:50},
+    {n:"Pedicure",d:"Soak, shape and polish",p:300}
+  ],
+  lashes:[
+    {n:"Classic Set",d:"One lash per natural lash",p:400},
+    {n:"Hybrid Set",d:"Classic and volume blend",p:480},
+    {n:"Volume Set",d:"Fuller, fluffy finish",p:550},
+    {n:"Mega Volume",d:"Dramatic, dense look",p:650},
+    {n:"Lash Lift &amp; Tint",d:"Natural curl, no extensions",p:400},
+    {n:"Infill",d:"Refresh every 2 to 3 weeks",p:250}
+  ]
+};
+const R = n => "R" + n.toLocaleString("en-ZA");
+let tab = "nails";
+const sel = new Map(); // key -> {n,p,cat}
+
+/* marquee */
+const words = ["Nails","Lashes","Soft Luxury","Book In","MaryGlam"];
+const m = words.map(w => `${w}<span>✦</span>`).join("");
+document.getElementById("marq").innerHTML = m + m + m + m;
+
+/* render */
+function render(){
+  const list = document.getElementById("list");
+  list.innerHTML = DATA[tab].map((s,i)=>{
+    const k = tab+i;
+    return `<div class="item rv ${sel.has(k)?'sel':''}" data-k="${k}" data-i="${i}">
+      <div class="thumb">MG${s.img?`<img src="${s.img}" alt="" onerror="this.remove()">`:''}</div>
+      <div class="info"><h3>${s.n}</h3><p>${s.d}</p><div class="price">${tab==='nails'&&s.n==='Nail Art'?'from ':''}${R(s.p)}</div></div>
+      <div class="add"></div></div>`;
+  }).join("");
+  list.querySelectorAll(".item").forEach((el,idx)=>{
+    setTimeout(()=>el.classList.add("in"),60*idx);
+    el.onclick=()=>{
+      const k=el.dataset.k, s=DATA[tab][el.dataset.i];
+      sel.has(k)?sel.delete(k):sel.set(k,{n:s.n.replace(/&amp;/g,"&"),p:s.p,cat:tab});
+      el.classList.toggle("sel"); update();
+    };
+  });
 }
-</script>
+function setTab(t){
+  tab=t;
+  document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("on",b.dataset.t===t));
+  const b=document.querySelector(`.tab[data-t="${t}"]`), s=document.getElementById("slider");
+  s.style.width=b.offsetWidth+"px"; s.style.transform=`translateX(${b.offsetLeft-5}px)`;
+  render();
+}
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>setTab(b.dataset.t));
+function go(id){document.getElementById(id).scrollIntoView({behavior:"smooth"})}
+function pick(t){go("menu");setTimeout(()=>setTab(t),350)}
 
-</div>
-
-<!-- ===== CUSTOMER SUPPORT ===== -->
-<div class="support">
-  <h2>Customer Support</h2>
-  <p>Phone / WhatsApp: <span>+27 73 615 5166</span></p>
-  <p>Instagram: @sucyhairs4queens</p>
-</div>
-
-<!-- ===== TAGLINE ===== -->
-<div class="tagline">
-  <h3>Premium Luxury Wigs</h3>
-  <p>Original, high-quality hair & styling products for our queens</p>
-</div>
-
-<script>
-
-/* ===== TRUE SMOOTH HEADER COLLAPSE ===== */
-const header = document.getElementById('header');
-
-window.addEventListener('scroll', () => {
-  const y = window.scrollY;
-  if (y > 60) header.classList.add('compact');
-  else header.classList.remove('compact');
-});
-
-/* ===== WISHLIST ===== */
-function toggleHeart(el) {
-  el.classList.toggle('active');
+/* bar */
+function update(){
+  const arr=[...sel.values()], tot=arr.reduce((a,s)=>a+s.p,0);
+  document.getElementById("count").textContent=arr.length+(arr.length===1?" treatment":" treatments");
+  document.getElementById("total").textContent=R(tot);
+  document.getElementById("bar").classList.toggle("show",arr.length>0);
 }
 
-</script>
+/* sheet + WhatsApp */
+function openSheet(){
+  const arr=[...sel.values()], tot=arr.reduce((a,s)=>a+s.p,0);
+  document.getElementById("sum").innerHTML=arr.map(s=>`<div><span>${s.n} <small style="opacity:.55">${s.cat}</small></span><span>${R(s.p)}</span></div>`).join("")+`<div class="tot"><span>Total</span><span>${R(tot)}</span></div>`;
+  document.getElementById("veil").classList.add("show");
+  document.getElementById("sheet").classList.add("show");
+}
+function closeSheet(){
+  document.getElementById("veil").classList.remove("show");
+  document.getElementById("sheet").classList.remove("show");
+}
+function sendWA(){
+  const arr=[...sel.values()], tot=arr.reduce((a,s)=>a+s.p,0);
+  const name=document.getElementById("name").value.trim();
+  const date=document.getElementById("date").value, time=document.getElementById("time").value;
+  const msg=`Hi MaryGlam! I’d like to book:\n`+arr.map(s=>`• ${s.n} (${s.cat}) – ${R(s.p)}`).join("\n")+
+    `\n\nTotal: ${R(tot)}`+(name?`\nName: ${name}`:"")+(date?`\nDate: ${date}`:"")+`\nTime: ${time}`;
+  if(!WHATSAPP){alert("WhatsApp number not set yet. Add it in the WHATSAPP setting at the top of the script.");return}
+  window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`,"_blank");
+}
+if(WHATSAPP){const a=document.getElementById("waText");a.textContent=WHATSAPP_DISPLAY||("+"+WHATSAPP);a.href="https://wa.me/"+WHATSAPP}
+document.getElementById("date").min=new Date().toISOString().split("T")[0];
 
+/* header collapse */
+const header=document.getElementById("header");
+addEventListener("scroll",()=>header.classList.toggle("compact",scrollY>60),{passive:true});
+
+/* reveal on scroll */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.15});
+document.querySelectorAll(".rv").forEach(el=>io.observe(el));
+
+/* init */
+addEventListener("load",()=>setTab("nails"));
+addEventListener("resize",()=>setTab(tab));
+</script>
 </body>
 </html>
