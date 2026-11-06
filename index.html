@@ -171,12 +171,13 @@ const WORKS = {
 const LABELS = {nails:"Nails",lashes:"Lashes"};
 /* Check which photos really exist BEFORE drawing, so empty sets never appear */
 let bestK=0; /* remembers which file-name style worked, to try it first next time */
+let locked=false; /* once one photo is found, assume the rest are named the same way (much faster) */
 function probe(srcs){
-  const order=[bestK,...srcs.map((_,k)=>k).filter(k=>k!==bestK)];
+  const order=locked?[bestK]:[bestK,...srcs.map((_,k)=>k).filter(k=>k!==bestK)];
   return new Promise(res=>{
     let i=0;
     const t=new Image();
-    t.onload=()=>{bestK=order[i];res(srcs[order[i]])};
+    t.onload=()=>{bestK=order[i];locked=true;res(srcs[order[i]])};
     t.onerror=()=>{i++;i<order.length?t.src=srcs[order[i]]:res(null)};
     t.src=srcs[order[0]];
   });
