@@ -159,9 +159,14 @@ const WHATSAPP = ""; // e.g. "27821234567" (country code, no + or spaces)
    Each photo tries that name first, then img/1.jpg, then 1.jpg, so either way of storing them works. */
 const range=(a,b)=>Array.from({length:b-a+1},(_,k)=>a+k);
 const pic=(n,s)=>[`./img:${n}${s}.jpg`,`./img%3A${n}${s}.jpg`,`img/${n}${s}.jpg`,`${n}${s}.jpg`];
+/* WHICH PHOTO NUMBERS BELONG TO WHICH CATEGORY — edit these two lines only.
+   Examples:  range(1,30)  = 1 to 30   |   [1,2,3,7,9] = just those numbers
+   Sets with no photos uploaded are hidden automatically, so extra numbers are safe. */
+const NAIL_FILES  = range(1,30);
+const LASH_FILES  = range(31,60);
 const WORKS = {
-  nails: range(1,30).map(n=>({imgs:[pic(n,""),pic(n,"-2")],t:`Nail set ${n}`})),
-  lashes:range(31,60).map(n=>({imgs:[pic(n,""),pic(n,"-2")],t:`Lash set ${n-30}`}))
+  nails: NAIL_FILES.map((n,i)=>({imgs:[pic(n,""),pic(n,"-2")],t:`Nail set ${i+1}`})),
+  lashes:LASH_FILES.map((n,i)=>({imgs:[pic(n,""),pic(n,"-2")],t:`Lash set ${i+1}`}))
 };
 const LABELS = {nails:"Nails",lashes:"Lashes"};
 /* the 3 shown on the home page */
@@ -199,8 +204,8 @@ function shot(w,cat){
       const next=(img.dataset.alt||"").split("|").filter(Boolean);
       if(next.length){img.src=next.shift();img.dataset.alt=next.join("|");return}
       const s=img.closest(".slide");
-      if(slides.children.length>1)s.remove();else img.remove();
-      syncDots();
+      if(slides.children.length>1){s.remove();syncDots()}
+      else el.remove(); /* no photo for this set: hide the whole card */
     };
     if(img.complete&&img.naturalWidth)img.classList.add("ok");
   });
