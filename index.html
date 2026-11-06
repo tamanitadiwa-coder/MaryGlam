@@ -169,10 +169,27 @@ const WORKS = {
   lashes:LASH_FILES.map((n,i)=>({imgs:[pic(n,""),pic(n,"-2")],t:`Lash set ${i+1}`}))
 };
 const LABELS = {nails:"Nails",lashes:"Lashes"};
-/* the 3 shown on the home page */
-const FEATURED = [
-  {cat:"nails",i:0},{cat:"lashes",i:0},{cat:"nails",i:1}
-];
+/* Check which photos really exist BEFORE drawing, so empty sets never appear */
+let bestK=0; /* remembers which file-name style worked, to try it first next time */
+function probe(srcs){
+  const order=[bestK,...srcs.map((_,k)=>k).filter(k=>k!==bestK)];
+  return new Promise(res=>{
+    let i=0;
+    const t=new Image();
+    t.onload=()=>{bestK=order[i];res(srcs[order[i]])};
+    t.onerror=()=>{i++;i<order.length?t.src=srcs[order[i]]:res(null)};
+    t.src=srcs[order[0]];
+  });
+}
+const _res=new Map();
+function resolveSet(w){
+  if(!_res.has(w))_res.set(w,Promise.all(w.imgs.map(probe)).then(r=>{
+    const f=r.filter(Boolean).map(s=>[s]);
+    return f.length?{...w,imgs:f}:null;
+  }));
+  return _res.get(w);
+}
+const available=c=>Promise.all(WORKS[c].map(resolveSet)).then(r=>r.filter(Boolean));
 
 function wa(text){
   if(!WHATSAPP){alert("Booking is opening soon. Please check back shortly.");return}
@@ -235,7 +252,24 @@ let tick=false;
 function onScroll(root){if(tick)return;tick=true;requestAnimationFrame(()=>{parallax(root);tick=false})}
 
 const feed=document.getElementById("feed"), catFeed=document.getElementById("catFeed");
-mount(FEATURED.map(f=>[WORKS[f.cat][f.i],f.cat]),feed);
+/* home page: the first 3 sets that have photos, alternating nails / lashes */
+async function initHome(){
+  const order=[];
+  const len=Math.max(WORKS.nails.length,WORKS.lashes.length);
+  for(let i=0;i<len;i++){
+    if(WORKS.nails[i])order.push(["nails",WORKS.nails[i]]);
+    if(WORKS.lashes[i])order.push(["lashes",WORKS.lashes[i]]);
+  }
+  const pick=[];
+  for(const [c,w] of order){
+    const r=await resolveSet(w);
+    if(r)pick.push([r,c]);
+    if(pick.length===3)break;
+  }
+  mount(pick,feed);
+  requestAnimationFrame(()=>parallax(feed));
+}
+initHome();
 
 /* show more -> category */
 function showChooser(){
@@ -245,9 +279,17 @@ function showChooser(){
 }
 const cat=document.getElementById("cat");
 let catOpen=false;
+let catToken=0;
 function openCat(c){
   document.getElementById("catTitle").textContent=LABELS[c];
-  mount(WORKS[c].map(w=>[w,c]),catFeed);
+  catFeed.innerHTML="";
+  const tok=++catToken;
+  available(c).then(list=>{
+    if(tok!==catToken)return;
+    if(list.length)mount(list.map(w=>[w,c]),catFeed);
+    else catFeed.innerHTML='<p style="text-align:center;font-family:\'Cormorant Garamond\',serif;font-size:22px;font-style:italic;opacity:.8;padding:60px 0">New sets coming soon</p>';
+    requestAnimationFrame(()=>parallax(catFeed));
+  });
   cat.scrollTop=0;cat.classList.add("show");document.body.classList.add("lock");
   if(!catOpen){history.pushState({cat:1},"");catOpen=true}
   setTimeout(()=>parallax(catFeed),100);
