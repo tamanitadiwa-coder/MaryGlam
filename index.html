@@ -158,7 +158,7 @@ const WHATSAPP = ""; // e.g. "27821234567" (country code, no + or spaces)
    Your repo has them in the main folder named like "img:1.jpg" (the colon is written %3A in a web address).
    Each photo tries that name first, then img/1.jpg, then 1.jpg, so either way of storing them works. */
 const range=(a,b)=>Array.from({length:b-a+1},(_,k)=>a+k);
-const pic=(n,s)=>[`img%3A${n}${s}.jpg`,`img/${n}${s}.jpg`,`${n}${s}.jpg`];
+const pic=(n,s)=>[`./img:${n}${s}.jpg`,`./img%3A${n}${s}.jpg`,`img/${n}${s}.jpg`,`${n}${s}.jpg`];
 const WORKS = {
   nails: range(1,30).map(n=>({imgs:[pic(n,""),pic(n,"-2")],t:`Nail set ${n}`})),
   lashes:range(31,60).map(n=>({imgs:[pic(n,""),pic(n,"-2")],t:`Lash set ${n-30}`}))
