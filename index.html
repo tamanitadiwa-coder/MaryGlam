@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#F6EDE9; --ink:#2A2220; --rose:#C98E86; --rose-d:#B27A72;
+  --bg:#C9AFA8; --ink:#2A2220; --rose:#C98E86; --rose-d:#B27A72;
   --glass:rgba(255,255,255,.42); --glass-b:rgba(255,255,255,.7);
   --ease:cubic-bezier(.22,1,.36,1);
 }
@@ -19,7 +19,7 @@ body.lock{overflow:hidden}
 
 /* ambient blobs */
 .blobs{position:fixed;inset:0;z-index:-1;overflow:hidden}
-.blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55;animation:float 18s ease-in-out infinite}
+.blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.4;animation:float 18s ease-in-out infinite}
 .b1{width:380px;height:380px;background:#EBC3BB;top:-80px;left:-100px}
 .b2{width:320px;height:320px;background:#E8D5BE;top:45%;right:-120px;animation-delay:-6s}
 .b3{width:340px;height:340px;background:#D9B4B8;bottom:-100px;left:10%;animation-delay:-12s}
@@ -64,17 +64,16 @@ body.lock{overflow:hidden}
 .more{text-align:center;padding:10px 0 90px}
 .more .btn{padding:18px 40px;font-size:12px}
 .chooser{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:520px;margin:0 auto;padding:0 16px;max-height:0;overflow:hidden;opacity:0;transition:max-height .7s var(--ease),opacity .6s,margin .6s}
-.chooser.show{max-height:340px;opacity:1;margin-bottom:90px}
+.chooser.show{max-height:240px;opacity:1;margin-bottom:90px}
 .path{padding:36px 16px;border-radius:30px;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--glass-b);
   cursor:pointer;font-family:'Cormorant Garamond',serif;font-size:30px;color:var(--ink);transition:transform .5s var(--ease),box-shadow .4s}
-.path.wide{grid-column:1/-1;padding:30px 16px}
 .path:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(150,100,90,.2)}
 
 /* category view */
 .cat{position:fixed;inset:0;z-index:200;background:var(--bg);overflow-y:auto;transform:translateY(100%);transition:transform .8s var(--ease);-webkit-overflow-scrolling:touch}
 .cat.show{transform:none}
 .cat-top{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;padding:calc(env(safe-area-inset-top,0px) + 12px) 16px 10px;
-  background:rgba(246,237,233,.7);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+  background:rgba(201,175,168,.7);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
 .cat-top h2{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:30px;letter-spacing:3px}
 .cat-top button{width:44px;height:44px;border-radius:50%;border:1px solid var(--glass-b);background:var(--glass);font-size:18px;cursor:pointer;color:var(--ink)}
 .cat .feed{padding-top:30px}
@@ -100,7 +99,6 @@ footer a{color:inherit}
 <div class="chooser" id="chooser">
   <button class="path" onclick="openCat('nails')">Nails</button>
   <button class="path" onclick="openCat('lashes')">Lashes</button>
-  <button class="path wide" onclick="openCat('wigs')">Wig Installation</button>
 </div>
 
 <footer>MG · NAILS &amp; LASHES<br>Site by <a href="https://tamany.tech">TAMANY.TECH</a></footer>
@@ -115,26 +113,14 @@ footer a{color:inherit}
 /* ===== SETTINGS ===== */
 const WHATSAPP = ""; // e.g. "27821234567" (country code, no + or spaces)
 
-/* Add your photos in an img/ folder. Add as many as you like. */
+/* Photos: img/1.jpg to img/60.jpg. Nails = 1-30, Lashes = 31-60 */
+const range=(a,b)=>Array.from({length:b-a+1},(_,k)=>a+k);
 const WORKS = {
-  nails:[
-    {img:"img/nails1.jpg",t:"Nail set 1"},{img:"img/nails2.jpg",t:"Nail set 2"},
-    {img:"img/nails3.jpg",t:"Nail set 3"},{img:"img/nails4.jpg",t:"Nail set 4"},
-    {img:"img/nails5.jpg",t:"Nail set 5"},{img:"img/nails6.jpg",t:"Nail set 6"}
-  ],
-  lashes:[
-    {img:"img/lashes1.jpg",t:"Lash set 1"},{img:"img/lashes2.jpg",t:"Lash set 2"},
-    {img:"img/lashes3.jpg",t:"Lash set 3"},{img:"img/lashes4.jpg",t:"Lash set 4"},
-    {img:"img/lashes5.jpg",t:"Lash set 5"},{img:"img/lashes6.jpg",t:"Lash set 6"}
-  ],
-  wigs:[
-    {img:"img/wigs1.jpg",t:"Wig install 1"},{img:"img/wigs2.jpg",t:"Wig install 2"},
-    {img:"img/wigs3.jpg",t:"Wig install 3"},{img:"img/wigs4.jpg",t:"Wig install 4"},
-    {img:"img/wigs5.jpg",t:"Wig install 5"},{img:"img/wigs6.jpg",t:"Wig install 6"}
-  ]
+  nails: range(1,30).map(n=>({img:`img/${n}.jpg`,t:`Nail set ${n}`})),
+  lashes:range(31,60).map(n=>({img:`img/${n}.jpg`,t:`Lash set ${n-30}`}))
 };
+const LABELS = {nails:"Nails",lashes:"Lashes"};
 /* the 3 shown on the home page */
-const LABELS = {nails:"Nails",lashes:"Lashes",wigs:"Wig Installation"};
 const FEATURED = [
   {cat:"nails",i:0},{cat:"lashes",i:0},{cat:"nails",i:1}
 ];
