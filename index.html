@@ -154,7 +154,7 @@ footer a{color:inherit;text-underline-offset:3px}
 /* ===== SETTINGS ===== */
 const WHATSAPP = ""; // e.g. "27821234567" (country code, no + or spaces)
 
-/* Photos: Nails = 1-30, Lashes = 31-60. Two per set: N.jpg and N-2.jpg.
+/* Photos: Lashes = 1-29, Nails = 30-60. Two per set: N.jpg and N-2.jpg.
    Your repo has them in the main folder named like "img:1.jpg" (the colon is written %3A in a web address).
    Each photo tries that name first, then img/1.jpg, then 1.jpg, so either way of storing them works. */
 const range=(a,b)=>Array.from({length:b-a+1},(_,k)=>a+k);
@@ -162,8 +162,8 @@ const pic=(n,s)=>[`./img:${n}${s}.jpg`,`./img%3A${n}${s}.jpg`,`img/${n}${s}.jpg`
 /* WHICH PHOTO NUMBERS BELONG TO WHICH CATEGORY — edit these two lines only.
    Examples:  range(1,30)  = 1 to 30   |   [1,2,3,7,9] = just those numbers
    Sets with no photos uploaded are hidden automatically, so extra numbers are safe. */
-const NAIL_FILES  = range(1,30);
-const LASH_FILES  = range(31,60);
+const LASH_FILES  = range(1,29);   /* photos 1 to 29 (and their -2) are lashes */
+const NAIL_FILES  = range(30,60);  /* photos 30 to 60 (and their -2) are nails  */
 const WORKS = {
   nails: NAIL_FILES.map((n,i)=>({imgs:[pic(n,""),pic(n,"-2")],t:`Nail set ${i+1}`})),
   lashes:LASH_FILES.map((n,i)=>({imgs:[pic(n,""),pic(n,"-2")],t:`Lash set ${i+1}`}))
